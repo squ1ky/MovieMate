@@ -4,8 +4,12 @@ import com.squiky.movieservice.model.Movie;
 import com.squiky.movieservice.model.MovieResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -21,6 +25,25 @@ public class KinopoiskService {
                 .build();
     }
 
+    @Cacheable(value = "movies", key = "#id", unless = "#result == null")
+    public Movie findMovieById(int id) {
+        Movie movie = webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/movie/" + id)
+                        .build())
+                .header("X-API-KEY", API_KEY)
+                .retrieve()
+                .bodyToMono(Movie.class)
+                .block();
+
+        if (movie == null) {
+            log.warn("Movie not found for id: {}", id);
+        }
+
+        return movie;
+    }
+
+    @Cacheable(value = "movies", key = "#movieName", unless = "#result == null")
     public Movie findMovieByName(String movieName) {
         MovieResponse response = webClient.get()
                 .uri(uriBuilder -> uriBuilder
@@ -35,8 +58,32 @@ public class KinopoiskService {
         if (response != null && !response.getDocs().isEmpty()) {
             return response.getDocs().getFirst();
         } else {
-            log.warn("Movie not found for query: {}", movieName);
+            log.warn("Movie not found for name: {}", movieName);
             return null;
         }
+    }
+
+    @Cacheable(value = "bestMovies", key = "'top250movies-' + #page + '-' + #limit")
+    public List<Movie> findBestMovies(int page, int limit) {
+        MovieResponse movieResponse = webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/movie")
+                        .queryParam("lists", "top250")
+                        .queryParam("sortField", "rating.kp")
+                        .queryParam("sortType", "-1")
+                        .queryParam("page", page)
+                        .queryParam("limit", limit)
+                        .build())
+                .header("X-API-KEY", API_KEY)
+                .retrieve()
+                .bodyToMono(MovieResponse.class)
+                .block();
+
+        List<Movie> movies = new ArrayList<>();
+        if (movieResponse != null && movieResponse.getDocs() != null) {
+            movies.addAll(movieResponse.getDocs());
+        }
+
+        return movies;
     }
 }
