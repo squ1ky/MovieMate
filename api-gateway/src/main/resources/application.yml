@@ -15,6 +15,10 @@ spring:
           uri: lb://user-service
           predicates:
             - Path=/users/**
+        - id: movie-service
+          uri: lb://movie-service
+          predicates:
+            - Path=/movies/**
 
 
 eureka:
