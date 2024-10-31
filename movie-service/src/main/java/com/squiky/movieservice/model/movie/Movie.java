@@ -1,4 +1,4 @@
-package com.squiky.movieservice.model;
+package com.squiky.movieservice.model.movie;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,4 +14,10 @@ public class Movie {
     private String type;
     private int year;
     private List<Genre> genres;
+
+    @Getter
+    @Setter
+    public static class Genre {
+        private String name;
+    }
 }

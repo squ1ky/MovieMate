@@ -1,7 +1,7 @@
 package com.squiky.movieservice.service;
 
-import com.squiky.movieservice.model.Movie;
-import com.squiky.movieservice.model.MovieResponse;
+import com.squiky.movieservice.model.movie.Movie;
+import com.squiky.movieservice.model.movie.MovieResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
@@ -26,7 +26,7 @@ public class KinopoiskService {
     }
 
     @Cacheable(value = "movies", key = "#id", unless = "#result == null")
-    public Movie findMovieById(int id) {
+    public Movie findMovieById(long id) {
         Movie movie = webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/movie/" + id)

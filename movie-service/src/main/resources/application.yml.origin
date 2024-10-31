@@ -19,6 +19,13 @@ header:
     key: <GET FROM https://kinopoisk.dev/>
 
 logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        type:
+          descriptor:
+            sql: trace
   pattern:
     console: "%C{1.} [%-5level] %d{HH:mm:ss} - %msg%n"
 

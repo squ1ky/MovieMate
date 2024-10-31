@@ -1,4 +1,4 @@
-package com.squiky.movieservice.model;
+package com.squiky.movieservice.model.movie;
 
 import lombok.Getter;
 import lombok.Setter;
