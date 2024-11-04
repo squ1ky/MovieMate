@@ -1,6 +1,8 @@
 package com.squiky.userservice.controller;
 
+import com.squiky.userservice.model.FavoriteMovie;
 import com.squiky.userservice.model.User;
+import com.squiky.userservice.model.WatchlistMovie;
 import com.squiky.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -41,5 +43,35 @@ public class UserController {
     @DeleteMapping("/{userId}")
     public void deleteUserById(@PathVariable long userId) {
         userService.delete(userId);
+    }
+
+    @PostMapping("/{userId}/favorites/{movieId}")
+    public void addFavoriteMovie(@PathVariable long userId, @PathVariable long movieId) {
+        userService.addFavoriteMovie(userId, movieId);
+    }
+
+    @GetMapping("/{userId}/favorites")
+    public List<FavoriteMovie> findFavoriteMovies(@PathVariable long userId) {
+        return userService.findFavoriteMovies(userId);
+    }
+
+    @DeleteMapping("/{userId}/favorites/{movieId}")
+    public void deleteFavoriteMovie(@PathVariable long userId, @PathVariable long movieId) {
+        userService.deleteFavoriteMovie(userId, movieId);
+    }
+
+    @PostMapping("/{userId}/watchlist/{movieId}")
+    public void addMovieToWatchlist(@PathVariable long userId, @PathVariable long movieId) {
+        userService.addMovieToWatchlist(userId, movieId);
+    }
+
+    @GetMapping("/{userId}/watchlist")
+    public List<WatchlistMovie> findWatchlist(@PathVariable long userId) {
+        return userService.findWatchlistMovies(userId);
+    }
+
+    @DeleteMapping("/{userId}/watchlist/{movieId}")
+    public void deleteMovieFromWatchlist(@PathVariable long userId, @PathVariable long movieId) {
+        userService.deleteMovieFromWatchlist(userId, movieId);
     }
 }
