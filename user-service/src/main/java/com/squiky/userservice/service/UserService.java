@@ -6,6 +6,7 @@ import com.squiky.userservice.model.WatchlistMovie;
 import com.squiky.userservice.repository.FavoriteMovieRepository;
 import com.squiky.userservice.repository.UserRepository;
 import com.squiky.userservice.repository.WatchlistMovieRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +45,7 @@ public class UserService {
         return favoriteMovieRepository.findAllByUserId(userId);
     }
 
+    @Transactional
     public void deleteFavoriteMovie(Long userId, Long movieId) {
         favoriteMovieRepository.deleteByUserIdAndMovieId(userId, movieId);
     }
@@ -56,6 +58,7 @@ public class UserService {
         return watchlistMovieRepository.findAllByUserId(userId);
     }
 
+    @Transactional
     public void deleteMovieFromWatchlist(long userId, long movieId) {
         watchlistMovieRepository.deleteByUserIdAndMovieId(userId, movieId);
     }
