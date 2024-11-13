@@ -22,6 +22,16 @@ spring:
     username: guest
     password: guest
 
+rabbitmq:
+  movie-requests:
+    routing-key:
+      favorite-movies-routing-key: "favoriteMovieRequests"
+      watchlist-movies-routing-key: "watchlistMovieRequests"
+  movie-responses:
+    queue:
+      favorite-movies-queue: "favoriteMovieResponses"
+      watchlist-movies-queue: "watchlistMovieResponses"
+
 eureka:
   client:
     service-url:

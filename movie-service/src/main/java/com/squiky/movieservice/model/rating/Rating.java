@@ -32,6 +32,8 @@ public class Rating {
     @Embeddable
     @NoArgsConstructor
     @AllArgsConstructor
+    @Getter
+    @Setter
     public static class RatingId implements Serializable {
         private Long userId;
         private Long movieId;

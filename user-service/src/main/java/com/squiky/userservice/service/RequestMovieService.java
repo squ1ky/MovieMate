@@ -11,9 +11,9 @@ public class RequestMovieService {
 
     private final RabbitTemplate rabbitTemplate;
 
-    @Value("${rabbitmq.movie-requests.favorite-movie-routing-key}")
+    @Value("${rabbitmq.movie-requests.routing-key.favorite-movies-routing-key}")
     private String favoriteMovieRequestsRoutingKey;
-    @Value("${rabbitmq.movie-requests.watchlist-movie-routing-key}")
+    @Value("${rabbitmq.movie-requests.routing-key.watchlist-movies-routing-key}")
     private String watchlistMovieRequestsRoutingKey;
 
     public void requestFavoriteMovieById(Long userId, Long movieId) {

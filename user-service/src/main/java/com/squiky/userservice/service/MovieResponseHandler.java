@@ -15,7 +15,7 @@ public class MovieResponseHandler {
     private final FavoriteMovieRepository favoriteMovieRepository;
     private final WatchlistMovieRepository watchlistMovieRepository;
 
-    @RabbitListener(queues = "${rabbitmq.movie-responses.favorite-movies-queue}")
+    @RabbitListener(queues = "${rabbitmq.movie-responses.queue.favorite-movies-queue}")
     public void handleAndSaveFavoriteMovie(Long[] userIdAndMovieId) {
         Long userId = userIdAndMovieId[0];
         Long movieDTO = userIdAndMovieId[1];
@@ -28,7 +28,7 @@ public class MovieResponseHandler {
         favoriteMovieRepository.save(favoriteMovie);
     }
 
-    @RabbitListener(queues = "${rabbitmq.movie-responses.watchlist-movies-queue}")
+    @RabbitListener(queues = "${rabbitmq.movie-responses.queue.watchlist-movies-queue}")
     public void handleAndSaveMovieToWatchlist(Long[] userIdAndMovieId) {
         Long userId = userIdAndMovieId[0];
         Long movieDTO = userIdAndMovieId[1];

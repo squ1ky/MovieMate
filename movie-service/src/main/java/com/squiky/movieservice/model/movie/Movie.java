@@ -14,6 +14,7 @@ public class Movie {
     private String type;
     private int year;
     private List<Genre> genres;
+    private List<Movie> similarMovies;
 
     @Getter
     @Setter
